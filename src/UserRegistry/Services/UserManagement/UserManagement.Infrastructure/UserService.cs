@@ -26,9 +26,9 @@ public class UserService : IUserService
         int pageSize,
         CancellationToken cancellationToken = default)
     {
-        var provinceCountryIdsDictionary = await _locationApiClient.GetProvinceCountryIdsDictionaryAsync(cancellationToken);
+        var provinceCountryDictionary = await _locationApiClient.GetProvinceCountryDictionaryAsync(cancellationToken);
 
-        if (provinceCountryIdsDictionary == null)
+        if (provinceCountryDictionary == null)
         {
             throw new DataException("Failed to retrieve provinces from the location service.");
         }
@@ -42,8 +42,12 @@ public class UserService : IUserService
 
         var usersWithLocations = users.Select(u =>
         {
-            var countryId = provinceCountryIdsDictionary[u.ProvinceId];
-            return u.ToDomain(countryId);
+            var province = provinceCountryDictionary[u.ProvinceId];
+            var country = province.Country;
+
+            return u.ToDomain(
+                Country.Of(country.Id, country.Name),
+                Province.Of(province.Id, province.Name));
         });
 
         var usersResult = new PaginatedResult<User>(totalCount, usersWithLocations);
@@ -66,7 +70,7 @@ public class UserService : IUserService
 
     public async Task<UserLocation?> GetAssociatedLocation(User user, CancellationToken cancellationToken = default)
     {
-        var province = await _locationApiClient.GetProvinceAsync(user.Location.ProvinceId, cancellationToken);
+        var province = await _locationApiClient.GetProvinceAsync(user.Location.Province.Id, cancellationToken);
 
         if (province?.Id == null || province?.CountryId == null)
         {

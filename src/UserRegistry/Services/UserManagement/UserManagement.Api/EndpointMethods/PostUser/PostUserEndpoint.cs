@@ -9,12 +9,17 @@ public class PostUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/users", async (PostUserRequest request, ISender sender, CancellationToken cancellationToken) =>
+        app.MapPost("/users", async (
+            PostUserRequest request,
+            ISender sender,
+            ILogger<PostUserEndpoint> logger,
+            CancellationToken cancellationToken) =>
         {
             var command = new CreateUserCommand(request.User);
 
             var user = await sender.Send(command, cancellationToken);
 
+            logger.LogInformation($"User {user.Id} created successfully.");
             return new PostUserResponse(user.Id);
         })
             .WithName("PostUser")

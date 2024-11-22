@@ -16,20 +16,20 @@ public class CacheableLocationApiClient : ILocationApiClient
         _cache = cache;
     }
 
-    public async Task<Dictionary<Guid, Guid>?> GetProvinceCountryIdsDictionaryAsync(CancellationToken cancellationToken = default)
+    public async Task<Dictionary<Guid, ProvinceCountryDto>?> GetProvinceCountryDictionaryAsync(CancellationToken cancellationToken = default)
     {
         var cacheKey = "ProvinceCountryIdsDictionary";
-        if (_cache.TryGetValue(cacheKey, out Dictionary<Guid, Guid>? cachedProvinces))
+        if (_cache.TryGetValue(cacheKey, out Dictionary<Guid, ProvinceCountryDto>? cachedProvinces))
         {
             return cachedProvinces;
         }
 
-        var provinceCountryIdsDictionary = await _innerApiClient.GetProvinceCountryIdsDictionaryAsync(cancellationToken);
-        if (provinceCountryIdsDictionary != null)
+        var provinceCountryDictionary = await _innerApiClient.GetProvinceCountryDictionaryAsync(cancellationToken);
+        if (provinceCountryDictionary != null)
         {
-            _cache.Set(cacheKey, provinceCountryIdsDictionary, CacheDuration);
+            _cache.Set(cacheKey, provinceCountryDictionary, CacheDuration);
         }
-        return provinceCountryIdsDictionary;
+        return provinceCountryDictionary;
     }
 
     public async Task<ProvinceDto?> GetProvinceAsync(Guid provinceId, CancellationToken cancellationToken = default)

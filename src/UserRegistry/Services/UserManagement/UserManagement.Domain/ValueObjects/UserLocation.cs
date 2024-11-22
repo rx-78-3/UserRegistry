@@ -4,23 +4,18 @@ namespace UserManagement.Domain.ValueObjects;
 
 public record UserLocation
 { 
-    public Guid CountryId { get; }
+    public Country Country { get; }
+    public Province Province { get; }
 
-    public Guid ProvinceId { get; }
-
-    private UserLocation(Guid countryId, Guid provinceId) => (CountryId, ProvinceId) = (countryId, provinceId);
+    private UserLocation(Country country, Province province) => (Country, Province) = (country, province);
 
     public static UserLocation Of(Guid countryId, Guid provinceId)
     {
-        if (countryId == Guid.Empty)
-        {
-            throw new DomainException("CountryId cannot be empty.");
-        }
-        if (provinceId == Guid.Empty)
-        {
-            throw new DomainException("ProvinceId cannot be empty.");
-        }
+        return new UserLocation(Country.Of(countryId), Province.Of(provinceId));
+    }
 
-        return new UserLocation(countryId, provinceId);
+    public static UserLocation Of(Country country, Province province)
+    {
+        return new UserLocation(country, province);
     }
 }

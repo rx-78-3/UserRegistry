@@ -2,4 +2,4 @@
 
 namespace Location.Contracts.GetProvinces;
 
-public record GetProvincesResponse(ProvinceDto[] Provinces);
+public record GetProvincesResponse(ProvinceCountryDto[] Provinces);

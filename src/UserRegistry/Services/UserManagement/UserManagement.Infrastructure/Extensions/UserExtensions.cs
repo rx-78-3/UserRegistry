@@ -6,13 +6,13 @@ namespace UserManagement.Infrastructure.Extensions;
 
 internal static class UserExtensions
 {
-    internal static UserDomain ToDomain(this UserDb userDb, Guid countryId)
+    internal static UserDomain ToDomain(this UserDb userDb, Country country, Province province)
     {
         return UserDomain.Create(
             UserId.Of(userDb.Id),
             Email.Of(userDb.Email),
             PasswordHash.Of(userDb.PasswordHash),
-            UserLocation.Of(countryId, userDb.ProvinceId));
+            UserLocation.Of(country, province));
     }
 
     internal static UserDb ToDb(this UserDomain userDomain)
@@ -22,7 +22,7 @@ internal static class UserExtensions
             Id = userDomain.Id.Value,
             Email = userDomain.Email.Value,
             PasswordHash = userDomain.PasswordHash.Value,
-            ProvinceId = userDomain.Location.ProvinceId
+            ProvinceId = userDomain.Location.Province.Id
         };
     }
 }

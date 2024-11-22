@@ -2,4 +2,4 @@
 
 namespace Location.Api.EndpointsMethods.GetProvinces.Models;
 
-public record GetProvincesResult(ProvinceDto[] Provinces);
+public record GetProvincesResult(ProvinceCountryDto[] Provinces);

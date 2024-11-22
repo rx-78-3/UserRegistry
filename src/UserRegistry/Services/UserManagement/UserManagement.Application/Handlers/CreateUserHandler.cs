@@ -23,10 +23,10 @@ public class CreateUserHandler(IUserService userService, ISaltGenerator saltGene
 
         if (location == null)
         {
-            throw new KeyNotFoundException($"Province with ID '{newUser.Location.ProvinceId}' does not exist.");
+            throw new KeyNotFoundException($"Province with ID '{newUser.Location.Province.Id}' does not exist.");
         }
 
-        if (location.CountryId != request.User.CountryId)
+        if (location.Country.Id != request.User.CountryId)
         {
             throw new DomainException("Country and province do not match.");
         }

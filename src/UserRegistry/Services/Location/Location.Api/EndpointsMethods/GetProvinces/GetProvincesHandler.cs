@@ -12,9 +12,11 @@ public class GetProvincesHandler(LocationsDbContext locationsDbContext) :
 {
     public async Task<GetProvincesResult> Handle(GetProvincesQuery query, CancellationToken cancellationToken)
     {
-        var provinces = await locationsDbContext.Provinces.ToArrayAsync();
+        var provinces = await locationsDbContext.Provinces
+            .Include(p => p.Country)
+            .ToArrayAsync();
 
-        var provincesDto = provinces.Adapt<ProvinceDto[]>();
+        var provincesDto = provinces.Adapt<ProvinceCountryDto[]>();
         return new GetProvincesResult(provincesDto);
     }
 }

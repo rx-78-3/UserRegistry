@@ -16,7 +16,7 @@ public class LocationApiClient : ILocationApiClient
         _httpClient = httpClient;
     }
 
-    public async Task<Dictionary<Guid, Guid>?> GetProvinceCountryIdsDictionaryAsync(CancellationToken cancellationToken = default)
+    public async Task<Dictionary<Guid, ProvinceCountryDto>?> GetProvinceCountryDictionaryAsync(CancellationToken cancellationToken = default)
     {
         var url = $"/provinces";
 
@@ -25,7 +25,7 @@ public class LocationApiClient : ILocationApiClient
         if (response.IsSuccessStatusCode)
         {
             var getCountryResponse = await response.Content.ReadFromJsonAsync<GetProvincesResponse>(cancellationToken);
-            return getCountryResponse?.Provinces.ToDictionary(p => p.Id, p => p.CountryId);
+            return getCountryResponse?.Provinces.ToDictionary(p => p.Id, p => p);
         }
 
         try

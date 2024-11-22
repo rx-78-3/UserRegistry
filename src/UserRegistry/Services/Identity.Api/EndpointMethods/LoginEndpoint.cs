@@ -8,28 +8,28 @@ public static class LoginEndpoint
     public static void MapLogin(this WebApplication app)
     {
         app.MapPost("/login", async (
+            LoginRequest request,
             IAuthService authService,
             ILogger<Program> logger,
-            LoginRequest model,
             CancellationToken cancellationToken) =>
         {
-            if (string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.Password))
+            if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
             {
                 logger.LogWarning("The username or password is empty.");
                 return Results.BadRequest();
             }
 
-            var user = await authService.ValidateUserAsync(model.Email, model.Password, cancellationToken);
+            var user = await authService.ValidateUserAsync(request.Email, request.Password, cancellationToken);
 
             if (user == null)
             {
-                logger.LogWarning($"Failed login attempt made by user: {model.Email}.");
+                logger.LogWarning($"Failed login attempt made by user: {request.Email}.");
                 return Results.Unauthorized();
             }
 
             var token = authService.GenerateJwtToken(user);
 
-            logger.LogInformation($"User {model.Email} logged in successfully.");
+            logger.LogInformation($"User {request.Email} logged in successfully.");
             return Results.Ok(new LoginResponse(token)); // TODO: Add refresh token.
         })
         .WithName("Login")
