@@ -15,6 +15,7 @@ internal static class UserExtensions
         return new UserDto(
             user.Id.Value,
             user.Email.Value,
-            user.ProvinceId.Value);
+            user.Location.CountryId,
+            user.Location.ProvinceId);
     }
 }

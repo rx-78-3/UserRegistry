@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+  location.api:
+    image: ${DOCKER_REGISTRY-}locationapi
+    build:
+      context: .
+      dockerfile: Services/Location/Location.Api/Dockerfile
+
   usermanagement.api:
     image: ${DOCKER_REGISTRY-}usermanagementapi
     build:
@@ -12,4 +18,10 @@ services:
     build:
       context: .
       dockerfile: Services/Identity.Api/Dockerfile
+
+  api.gateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
 

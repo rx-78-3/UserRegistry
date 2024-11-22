@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\CoreServices\CoreServices.csproj" />
+    <ProjectReference Include="..\..\Common\BuildingBlocks\BuildingBlocks.csproj" />
     <ProjectReference Include="..\..\Common\DataAccess\UserManagement.DataAccess\UserManagement.DataAccess.csproj" />
     <ProjectReference Include="..\..\Services\Identity.Api\Identity.Api.csproj" />
   </ItemGroup>

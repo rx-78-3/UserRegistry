@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using BuildingBlocks.Cqrs;
-using CoreServices.Cryptography.Abstractions;
+using BuildingBlocks.Cryptography.Abstractions;
 using Domain.Base;
-using UserManagement.Application.DataAccess;
+using UserManagement.Application.Abstractions;
 using UserManagement.Application.Dtos;
 using UserManagement.Application.Messages.Commands;
 using UserManagement.Domain.Models;
@@ -10,18 +10,28 @@ using UserManagement.Domain.ValueObjects;
 
 namespace UserManagement.Application.Handlers;
 
-public class CreateUserHandler(IUserRepository userRepository, ISaltGenerator saltGenerator, IPasswordHasher passwordHasher)
+public class CreateUserHandler(IUserService userService, ISaltGenerator saltGenerator, IPasswordHasher passwordHasher)
     : ICommandHandler<CreateUserCommand, CreateUserResult>
 {
     private static readonly Regex EmailRegex = new(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", RegexOptions.Compiled);
 
     public async Task<CreateUserResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        // TODO add location fields validation with requesting cached LocationService here.
-
         var newUser = CreateNewUser(request.User);
 
-        await userRepository.Create(newUser, cancellationToken);
+        var location = await userService.GetAssociatedLocation(newUser, cancellationToken);
+
+        if (location == null)
+        {
+            throw new KeyNotFoundException($"Province with ID '{newUser.Location.ProvinceId}' does not exist.");
+        }
+
+        if (location.CountryId != request.User.CountryId)
+        {
+            throw new DomainException("Country and province do not match.");
+        }
+
+        await userService.Create(newUser, cancellationToken);
 
         return new CreateUserResult(newUser.Id.Value);
     }
@@ -41,7 +51,7 @@ public class CreateUserHandler(IUserRepository userRepository, ISaltGenerator sa
             UserId.Of(Guid.NewGuid()),
             Email.Of(userDto.Email),
             PasswordHash.Of(passwordHash),
-            ProvinceId.Of(userDto.ProvinceId)
+            UserLocation.Of(userDto.CountryId, userDto.ProvinceId)
         );
 
         return newUser;

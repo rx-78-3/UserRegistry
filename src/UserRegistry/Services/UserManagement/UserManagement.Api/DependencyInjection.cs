@@ -11,8 +11,6 @@ public static class DependencyInjection
             .AddCarter()
             .AddCommonApiServices(configuration)
             .AddAuthServices(configuration);
-        
-        services.AddAuthorization();
 
         return services;
     }

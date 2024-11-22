@@ -8,7 +8,26 @@ services:
       - SA_PASSWORD=DevEnvPassword123
       - ACCEPT_EULA=Y
     ports:
-      - "1430:1430"
+      - "1431:1430"
+
+  location.api:
+    build:
+      context: .
+      dockerfile: Services/Location/Location.Api/Dockerfile
+      args:
+        BUILD_CONFIGURATION: Debug
+    container_name: location.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__SqlServer=Server=usersregistry.db;Database=LocationsDb;User Id=sa;Password=DevEnvPassword123;Encrypt=False;
+      - ServiceAddresses__FrontendUrl=http://localhost:8080
+      - JwtSettings__SecretKey=Dev_Env_Supersecret_Very_Long_Key_2000
+      - JwtSettings__Issuer=auth.api
+      - JwtSettings__Audience=userregistry
+    ports:
+      - "5000:8080"
+    depends_on:
+      - usersregistry.db
 
   usermanagement.api:
     build:
@@ -20,10 +39,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__SqlServer=Server=usersregistry.db;Database=UsersDb;User Id=sa;Password=DevEnvPassword123;Encrypt=False;
+      - LocationClientSettings__ServiceUrl=http://location.api:8080
+      - LocationClientSettings__CacheDurationInMinutes=30
       - ServiceAddresses__FrontendUrl=http://localhost:8080
       - JwtSettings__SecretKey=Dev_Env_Supersecret_Very_Long_Key_2000
       - JwtSettings__Issuer=auth.api
-      - JwtSettings__Audience=usermanagement
+      - JwtSettings__Audience=userregistry
     ports:
       - "5001:8080"
     depends_on:
@@ -42,8 +63,24 @@ services:
       - ServiceAddresses__FrontendUrl=http://localhost:8080
       - JwtSettings__SecretKey=Dev_Env_Supersecret_Very_Long_Key_2000
       - JwtSettings__Issuer=auth.api
-      - JwtSettings__Audience=usermanagement
+      - JwtSettings__Audience=userregistry
     ports:
       - "5002:8080"
     depends_on:
       - usersregistry.db
+
+  api.gateway:
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+      args:
+        BUILD_CONFIGURATION: Debug
+    container_name: api.gateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5003:8080"
+    depends_on:
+      - location.api
+      - usermanagement.api
+      - identity.api

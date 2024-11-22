@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "67b154fe-6b46-4a2e-ba7c-0a4a12eedf68",
+		"name": "Location API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37642492"
+	},
+	"item": [
+		{
+			"name": "Get Countries",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LocationBaseUrl}}/countries",
+					"host": [
+						"{{LocationBaseUrl}}"
+					],
+					"path": [
+						"countries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Province",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LocationBaseUrl}}/provinces/86CECAA0-5FEE-427A-97F0-FD1F5F892D69",
+					"host": [
+						"{{LocationBaseUrl}}"
+					],
+					"path": [
+						"provinces",
+						"86CECAA0-5FEE-427A-97F0-FD1F5F892D69"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Provinces",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: `${pm.environment.get(\"IdentityBaseUrl\")}/login`,\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({\r",
+							"            email: pm.environment.get(\"TestUserEmail\"),\r",
+							"            password: pm.environment.get(\"TestUserPassword\")\r",
+							"        })\r",
+							"    }\r",
+							"}, function (err, res) {\r",
+							"    var jsonData = res.json();\r",
+							"    pm.environment.set(\"authToken\", jsonData.token);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{LocationBaseUrl}}/provinces",
+					"host": [
+						"{{LocationBaseUrl}}"
+					],
+					"path": [
+						"provinces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Provinces Of Country",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LocationBaseUrl}}/countries/41749621-2864-4467-9EA3-7F8DBDB7F14B/provinces",
+					"host": [
+						"{{LocationBaseUrl}}"
+					],
+					"path": [
+						"countries",
+						"41749621-2864-4467-9EA3-7F8DBDB7F14B",
+						"provinces"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -2,5 +2,5 @@
 
 public abstract class Aggregate<TId> : IAggregate<TId>
 {
-    public TId Id { get; protected set; }
+    public TId Id { get; protected set; } = default!;
 }

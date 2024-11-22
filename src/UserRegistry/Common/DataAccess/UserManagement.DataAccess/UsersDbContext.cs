@@ -10,7 +10,7 @@ public class UsersDbContext : DbContext
     {
     }
 
-    public virtual DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

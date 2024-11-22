@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using BuildingBlocks.PipelineBehaviors;
-using CoreServices.Cryptography;
-using CoreServices.Cryptography.Abstractions;
+using BuildingBlocks.Cryptography;
+using BuildingBlocks.Cryptography.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

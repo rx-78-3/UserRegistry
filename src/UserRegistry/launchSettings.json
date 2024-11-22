@@ -4,12 +4,14 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "composeLaunchAction": "LaunchBrowser",
-      "composeLaunchServiceName": "usermanagement.api",
+      "composeLaunchServiceName": "api.gateway",
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
       "serviceActions": {
         "usermanagement.api": "StartDebugging",
         "identity.api": "StartDebugging",
-        "usersregistry.db": "StartWithoutDebugging"
+        "usersregistry.db": "StartWithoutDebugging",
+        "api.gateway": "StartDebugging",
+        "location.api": "StartDebugging"
       }
     }
   }

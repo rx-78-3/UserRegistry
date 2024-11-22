@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "290b6d0f-b51a-4746-b91c-acd183c9bb2c",
+		"name": "UserManagement API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37642492"
+	},
+	"item": [
+		{
+			"name": "Get Users",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: `${pm.environment.get(\"IdentityBaseUrl\")}/login`,\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({\r",
+							"            email: pm.environment.get(\"TestUserEmail\"),\r",
+							"            password: pm.environment.get(\"TestUserPassword\")\r",
+							"        })\r",
+							"    }\r",
+							"}, function (err, res) {\r",
+							"    var jsonData = res.json();\r",
+							"    pm.environment.set(\"authToken\", jsonData.token);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{UserManagementBaseUrl}}/users?pageIndex=0&pageSize=10",
+					"host": [
+						"{{UserManagementBaseUrl}}"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "pageIndex",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": {\r\n        \"id\": \"D294825E-D5FB-4B29-831F-1A2C7DF12148\",\r\n        \"email\": \"example@example.com\",\r\n        \"password\": \"examplePassword13\",\r\n        \"countryId\": \"13201D0D-75EB-46E9-8C28-7E22FC7847A4\",\r\n        \"provinceId\": \"697D12C2-A8B5-44EF-A37B-16576CE03BB6\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{UserManagementBaseUrl}}/users",
+					"host": [
+						"{{UserManagementBaseUrl}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

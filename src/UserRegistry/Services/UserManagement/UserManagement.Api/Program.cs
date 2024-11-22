@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using UserManagement.Api;
 using UserManagement.Application;
 using UserManagement.DataAccess;
@@ -7,7 +6,6 @@ using UserManagement.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-var connectionString = configuration["ConnectionStrings:SqlServer"]!;
 
 // Add services to the container.
 builder.Services

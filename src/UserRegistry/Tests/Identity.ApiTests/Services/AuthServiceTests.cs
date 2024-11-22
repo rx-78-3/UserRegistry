@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using CoreServices.Cryptography;
-using CoreServices.Cryptography.Abstractions;
+using BuildingBlocks.Cryptography;
+using BuildingBlocks.Cryptography.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -18,10 +18,10 @@ public class AuthServiceTests
     private const string CorrectHash = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b:5d41402abc4b2a76b9719d911017c592";
 
     //private Mock<UsersDbContext> _usersDbContextMock;
-    private Mock<IPasswordHasher> _passwordHasherMock;
-    private IPasswordValidator _passwordValidator;
-    private IConfiguration _configuration;
-    private AuthService _authService;
+    private  Mock<IPasswordHasher> _passwordHasherMock = default!;
+    private IPasswordValidator _passwordValidator = default!;
+    private IConfiguration _configuration = default!;
+    private AuthService _authService = default!;
 
     [TestInitialize]
     public void Setup()
@@ -41,7 +41,7 @@ public class AuthServiceTests
         _passwordHasherMock = new Mock<IPasswordHasher>();
         _passwordValidator = new PasswordValidator(_passwordHasherMock.Object);
 
-        var inMemorySettings = new Dictionary<string, string> {
+        var inMemorySettings = new Dictionary<string, string?> {
             {"JwtSettings:SecretKey", SecretKey},
             {"JwtSettings:Issuer", "your_issuer"},
             {"JwtSettings:Audience", "your_audience"}

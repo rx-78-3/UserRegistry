@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks;
-using CoreServices.Cryptography;
-using CoreServices.Cryptography.Abstractions;
+using BuildingBlocks.Cryptography;
+using BuildingBlocks.Cryptography.Abstractions;
 using Identity.Api.EndpointMethods;
 using Identity.Api.Services;
 using Identity.Api.Services.Abstractions;
