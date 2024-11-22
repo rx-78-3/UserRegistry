@@ -12,15 +12,15 @@ services:
 
   location.api:
     build:
-      context: .
-      dockerfile: Services/Location/Location.Api/Dockerfile
+      context: Services/Location/Location.Api
+      dockerfile: Dockerfile
       args:
         BUILD_CONFIGURATION: Debug
     container_name: location.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__SqlServer=Server=usersregistry.db;Database=LocationsDb;User Id=sa;Password=DevEnvPassword123;Encrypt=False;
-      - ServiceAddresses__FrontendUrl=http://localhost:8080
+      - ServiceAddresses__FrontendUrl=http://localhost:4200
       - JwtSettings__SecretKey=Dev_Env_Supersecret_Very_Long_Key_2000
       - JwtSettings__Issuer=auth.api
       - JwtSettings__Audience=userregistry
@@ -31,8 +31,8 @@ services:
 
   usermanagement.api:
     build:
-      context: .
-      dockerfile: Services/UserManagement/UserManagement.Api/Dockerfile
+      context: Services/UserManagement/UserManagement.Api
+      dockerfile: Dockerfile
       args:
         BUILD_CONFIGURATION: Debug
     container_name: usermanagement.api
@@ -41,7 +41,7 @@ services:
       - ConnectionStrings__SqlServer=Server=usersregistry.db;Database=UsersDb;User Id=sa;Password=DevEnvPassword123;Encrypt=False;
       - LocationClientSettings__ServiceUrl=http://location.api:8080
       - LocationClientSettings__CacheDurationInMinutes=30
-      - ServiceAddresses__FrontendUrl=http://localhost:8080
+      - ServiceAddresses__FrontendUrl=http://localhost:4200
       - JwtSettings__SecretKey=Dev_Env_Supersecret_Very_Long_Key_2000
       - JwtSettings__Issuer=auth.api
       - JwtSettings__Audience=userregistry
@@ -52,15 +52,15 @@ services:
 
   identity.api:
     build:
-      context: .
-      dockerfile: Services/Identity.Api/Dockerfile
+      context: Services/Identity.Api
+      dockerfile: Dockerfile
       args:
         BUILD_CONFIGURATION: Debug
     container_name: identity.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__SqlServer=Server=usersregistry.db;Database=UsersDb;User Id=sa;Password=DevEnvPassword123;Encrypt=False;
-      - ServiceAddresses__FrontendUrl=http://localhost:8080
+      - ServiceAddresses__FrontendUrl=http://localhost:4200
       - JwtSettings__SecretKey=Dev_Env_Supersecret_Very_Long_Key_2000
       - JwtSettings__Issuer=auth.api
       - JwtSettings__Audience=userregistry
@@ -71,8 +71,8 @@ services:
 
   api.gateway:
     build:
-      context: .
-      dockerfile: ApiGateway/Dockerfile
+      context: ApiGateway
+      dockerfile: Dockerfile
       args:
         BUILD_CONFIGURATION: Debug
     container_name: api.gateway
@@ -84,3 +84,13 @@ services:
       - location.api
       - usermanagement.api
       - identity.api
+
+  userregistry.web.ui:
+    build:
+        context: user-registry-web-ui
+        dockerfile: Dockerfile
+    container_name: userregistry.web.ui
+    ports:
+        - "4200:80"
+    depends_on:
+        - api.gateway

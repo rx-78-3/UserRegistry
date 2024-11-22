@@ -54,6 +54,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Postman", "Postman", "{6B7D
 		Postman\UserManagement API.postman_collection.json = Postman\UserManagement API.postman_collection.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.DomainTests", "Tests\UserManagement.DomainTests\UserManagement.DomainTests.csproj", "{7EF3C617-3505-4CA3-98CC-69A599A1023D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +122,10 @@ Global
 		{47922499-A2D5-4F16-AFEC-4F45E401CEA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47922499-A2D5-4F16-AFEC-4F45E401CEA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47922499-A2D5-4F16-AFEC-4F45E401CEA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EF3C617-3505-4CA3-98CC-69A599A1023D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EF3C617-3505-4CA3-98CC-69A599A1023D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EF3C617-3505-4CA3-98CC-69A599A1023D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EF3C617-3505-4CA3-98CC-69A599A1023D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,6 +148,7 @@ Global
 		{3EFFA2D5-AE41-4B74-8067-56480B6FE8E0} = {6CF8C7A0-521A-48AE-AFB0-28339136FAA1}
 		{20870DA9-483E-4460-BBC7-D171A0049AA3} = {A8B21DA4-FF25-47C0-AF93-CA7BE4D872BC}
 		{82590DA1-4BE5-4026-A869-C90B535AC2BF} = {20870DA9-483E-4460-BBC7-D171A0049AA3}
+		{7EF3C617-3505-4CA3-98CC-69A599A1023D} = {B85EF9DD-E521-467D-8951-06F18B9994FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {99BF2C52-532E-45AF-BC1E-EA12D12BE080}

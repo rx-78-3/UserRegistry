@@ -5,7 +5,7 @@
       "commandVersion": "1.0",
       "composeLaunchAction": "LaunchBrowser",
       "composeLaunchServiceName": "api.gateway",
-      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
+      "composeLaunchUrl": "http://localhost:4200",
       "serviceActions": {
         "usermanagement.api": "StartDebugging",
         "identity.api": "StartDebugging",

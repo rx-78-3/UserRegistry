@@ -1,0 +1,10 @@
+
+<div class="hamburger-menu-container">
+    <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+    <mat-menu #menu="matMenu">
+        <a mat-menu-item href="/register" *ngIf="!identityService.isLoggedIn()">Register</a>
+        <a mat-menu-item href="/login" *ngIf="!identityService.isLoggedIn()">Login</a>
+        <a mat-menu-item href="/usersList" *ngIf="identityService.isLoggedIn()">Users</a>
+        <a mat-menu-item href="javascript:void(0)" *ngIf="identityService.isLoggedIn()" (click)="logout()">Logout</a>
+    </mat-menu>
+</div>

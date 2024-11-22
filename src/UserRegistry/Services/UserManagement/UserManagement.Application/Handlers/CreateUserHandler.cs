@@ -13,7 +13,7 @@ namespace UserManagement.Application.Handlers;
 public class CreateUserHandler(IUserService userService, ISaltGenerator saltGenerator, IPasswordHasher passwordHasher)
     : ICommandHandler<CreateUserCommand, CreateUserResult>
 {
-    private static readonly Regex EmailRegex = new(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", RegexOptions.Compiled);
+    private static readonly Regex PasswordRegex = new(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", RegexOptions.Compiled);
 
     public async Task<CreateUserResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
@@ -40,7 +40,7 @@ public class CreateUserHandler(IUserService userService, ISaltGenerator saltGene
     {
         var saltString = saltGenerator.GenerateString();
 
-        if (!EmailRegex.IsMatch(userDto.Password))
+        if (!PasswordRegex.IsMatch(userDto.Password))
         {
             throw new DomainException("Invalid password");
         }

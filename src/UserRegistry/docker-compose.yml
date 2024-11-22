@@ -4,24 +4,29 @@ services:
   location.api:
     image: ${DOCKER_REGISTRY-}locationapi
     build:
-      context: .
-      dockerfile: Services/Location/Location.Api/Dockerfile
+      context: Services/Location/Location.Api
+      dockerfile: Dockerfile
 
   usermanagement.api:
     image: ${DOCKER_REGISTRY-}usermanagementapi
     build:
-      context: .
-      dockerfile: Services/UserManagement/UserManagement.Api/Dockerfile
+      context: Services/UserManagement/UserManagement.Api
+      dockerfile: Dockerfile
 
   identity.api:
     image: ${DOCKER_REGISTRY-}identityapi
     build:
-      context: .
-      dockerfile: Services/Identity.Api/Dockerfile
+      context: Services/Identity.Api
+      dockerfile: Dockerfile
 
   api.gateway:
     image: ${DOCKER_REGISTRY-}apigateway
     build:
-      context: .
-      dockerfile: ApiGateway/Dockerfile
-
+      context: ApiGateway
+      dockerfile: Dockerfile
+      
+  userregistry.web.ui:
+    image: ${DOCKER_REGISTRY-}userregistrywebui
+    build:
+      context: user-registry-web-ui
+      dockerfile: Dockerfile

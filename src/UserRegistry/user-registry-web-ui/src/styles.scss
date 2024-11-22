@@ -1,1 +1,45 @@
-/* You can add global styles to this file, and also import other style files */
+.card-backing {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
+.action-container-right {
+  display: flex;
+  justify-content: right;
+  margin-top: 10px;
+  
+  button {
+    margin-left: 10px;
+  }
+}
+
+.hamburger-menu-container {
+  padding: 10px;
+}
+
+mat-card {
+  width: 500px;
+  padding: 10px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.error-list-container {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 10px;
+
+  mat-list-item {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+mat-card-title {
+  text-align: center;
+}

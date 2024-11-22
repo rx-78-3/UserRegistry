@@ -1,0 +1,32 @@
+<div class="card-backing">
+    <div>
+        <mat-card>
+            <mat-card-title>Login</mat-card-title>
+            <mat-card-content>
+                <mat-form-field appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" [(ngModel)]="email" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" [(ngModel)]="password" required />
+                </mat-form-field>
+
+                <div *ngIf="errors.length !== 0" class="error-list-container">
+                    <mat-list>
+                        <mat-list-item *ngFor="let error of errors">
+                            {{ error }}
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+            </mat-card-content>
+    
+            <mat-card-actions class="action-container-right">
+                <button mat-raised-button color="primary" (click)="onLogin()">
+                    Login
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

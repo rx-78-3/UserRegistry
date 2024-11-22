@@ -1,0 +1,87 @@
+<div class="card-backing">
+    <div *ngIf="step === 1">
+        <mat-card>
+            <mat-card-title>Step 1: Account Information</mat-card-title>
+            <mat-card-content>
+                <mat-form-field appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" [(ngModel)]="registrationForm.email" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" [(ngModel)]="registrationForm.password" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Confirm Password</mat-label>
+                    <input matInput type="password" [(ngModel)]="registrationForm.confirmPassword" required />
+                </mat-form-field>
+
+                <mat-checkbox [(ngModel)]="registrationForm.agreement">
+                    I agree to the <a href="#">terms and conditions</a>.
+                </mat-checkbox>
+
+                <div *ngIf="errors.length !== 0" class="error-list-container">
+                    <mat-list>
+                        <mat-list-item *ngFor="let error of errors">
+                            {{ error }}
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions class="action-container-right">
+                <button mat-raised-button color="primary" (click)="goToStep2()">
+                    Next
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    
+    <div *ngIf="step === 2">
+        <mat-card>
+            <mat-card-title>Step 2: Location Information</mat-card-title>
+            <mat-card-content>
+                <mat-form-field appearance="fill"
+                                *ngIf="getCountriesResponse$ | async as countriesResponse">
+                    <mat-label>Country</mat-label>
+                    <mat-select [(ngModel)]="registrationForm.countryId"
+                                (selectionChange)="onCountryChange()">
+                        <mat-option *ngFor="let country of countriesResponse.countries; let isFirst = first"
+                                    [value]="country.id">
+                            {{ country.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill"
+                                *ngIf="getProvincesResponse$ | async as provincesResponse">
+                    <mat-label>Province</mat-label>
+                    <mat-select [(ngModel)]="registrationForm.provinceId">
+                        <mat-option *ngFor="let province of provincesResponse.provinces" [value]="province.id">
+                            {{ province.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <div *ngIf="errors.length !== 0" class="error-list-container">
+                    <mat-list>
+                        <mat-list-item *ngFor="let error of errors">
+                            {{ error }}
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions class="action-container-right">
+                <button mat-raised-button (click)="goToStep1()">
+                    Previous
+                </button>
+                <button mat-raised-button color="primary" (click)="register()">
+                    Save
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
